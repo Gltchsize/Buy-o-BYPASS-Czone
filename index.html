@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OpenCode BYPASS — Acheter</title>
+<meta property="og:title" content="OpenCode BYPASS">
+<meta property="og:image" content="logo.png">
+<link rel="icon" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Teko:wght@500;600;700&family=Barlow:wght@400;500;600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#05020c;--card:#0d0620e6;--line:#34206a;--p:#8b3dff;--p2:#c04dff;--t:#f3ecff;--m:#a595c9;--mono:'Share Tech Mono',ui-monospace,Consolas,monospace}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--t);font-family:Barlow,system-ui,sans-serif;font-weight:500;line-height:1.6;min-height:100vh;overflow-x:hidden}
+#rain{position:fixed;inset:0;width:100%;height:100%;z-index:0;opacity:.55}
+body::before{content:"";position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(ellipse at 50% 0%,#3a1285aa 0%,transparent 65%),radial-gradient(ellipse at center,transparent 40%,#000 100%)}
+body::after{content:"";position:fixed;inset:0;z-index:2;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,.28) 0 1px,transparent 1px 3px);animation:flick 6s infinite}
+@keyframes flick{0%,100%{opacity:.8}50%{opacity:1}52%{opacity:.6}}
+.w{position:relative;z-index:3;max-width:1000px;margin:auto;padding:0 20px}
+header{text-align:center;padding:48px 0 20px}
+header img{width:min(240px,60%);filter:drop-shadow(0 0 35px #8b3dffcc);animation:fl 5s ease-in-out infinite}
+@keyframes fl{50%{transform:translateY(-10px)}}
+h1{font:700 clamp(2.2rem,7vw,4rem) Teko,sans-serif;letter-spacing:5px;margin-top:10px;position:relative;display:inline-block}
+h1 span{background:linear-gradient(90deg,var(--p),var(--p2));-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 14px #8b3dff)}
+.sub{color:var(--p2);max-width:640px;margin:10px auto 0;min-height:1.6em;text-shadow:0 0 10px #8b3dff}
+.sub::after{content:"█";margin-left:4px;animation:bl 1s steps(1) infinite}
+@keyframes bl{50%{opacity:0}}
+h2{font:700 1.7rem Teko,sans-serif;letter-spacing:3px;text-align:center;margin:48px 0 20px;color:var(--t);text-shadow:0 0 14px #8b3dff}
+h2::before{content:"> ";color:var(--p2)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:18px}
+.plan{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:28px 18px 22px;text-align:center;cursor:pointer;position:relative;transition:.25s;backdrop-filter:blur(6px);overflow:hidden}
+.plan::after{content:"";position:absolute;left:0;right:0;top:-100%;height:60%;background:linear-gradient(180deg,transparent,#8b3dff22,transparent);transition:top .6s}
+.plan:hover::after{top:120%}
+.plan:hover{transform:translateY(-6px);border-color:var(--p2);box-shadow:0 0 25px #8b3dff55}
+.plan.sel{border-color:var(--p2);box-shadow:0 0 0 1px var(--p2),0 0 35px #8b3dff88,inset 0 0 25px #8b3dff33}
+.plan.hot::before{content:"POPULAIRE";position:absolute;top:0;left:50%;transform:translateX(-50%);background:linear-gradient(90deg,var(--p),var(--p2));font:700 .68rem var(--mono);letter-spacing:2px;padding:3px 14px;border-radius:0 0 8px 8px}
+.plan h3{font:700 1.3rem Teko;color:var(--m);letter-spacing:3px;text-transform:uppercase}
+.plan h3::before{content:"$ ";color:var(--p2)}
+.price{font:700 2.8rem Teko;margin:6px 0;text-shadow:0 0 18px #8b3dff}
+.plan small{color:var(--m)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:0 24px 24px;max-width:600px;margin:auto;box-shadow:0 0 40px #8b3dff33;backdrop-filter:blur(6px);overflow:hidden}
+.bar{display:flex;align-items:center;gap:7px;margin:0 -24px 20px;padding:10px 16px;background:#1a0d3a;border-bottom:1px solid var(--line);font-size:.8rem;color:var(--m)}
+.bar i{width:11px;height:11px;border-radius:50%;background:#8b3dff}
+.bar i:nth-child(2){background:#c04dff}.bar i:nth-child(3){background:#4a2a8f}
+.bar span{margin-left:8px}
+ol{padding-left:0;list-style:none;counter:s}
+ol li{margin:12px 0;padding-left:34px;position:relative;counter-increment:s}
+ol li::before{content:"0" counter(s);position:absolute;left:0;color:var(--p2);text-shadow:0 0 8px var(--p)}
+ol b{color:var(--p2)}
+.btn{display:block;width:100%;text-align:center;text-decoration:none;color:#fff;border:0;cursor:pointer;font:700 1.15rem Teko;letter-spacing:3px;padding:15px;border-radius:6px;background:linear-gradient(90deg,var(--p),var(--p2));transition:.2s;margin-top:16px;box-shadow:0 0 25px #8b3dff77}
+.btn:hover{filter:brightness(1.2);transform:scale(1.015);box-shadow:0 0 40px #c04dffaa}
+.btn.off{opacity:.4;pointer-events:none;box-shadow:none}
+.sum{text-align:center;font:700 1.25rem Teko;letter-spacing:2px;margin-top:18px;color:var(--p2)}
+.dc{margin:24px auto 0;max-width:580px;background:linear-gradient(135deg,#2a126088,#0d0620cc);border:1px solid var(--p);border-radius:8px;padding:18px;text-align:center;box-shadow:0 0 35px #8b3dff55;backdrop-filter:blur(6px)}
+.dc b{color:var(--p2)}
+.dc .join{display:block;margin-top:14px;text-decoration:none;color:#fff;font:700 1.05rem Teko;letter-spacing:3px;padding:12px;border-radius:6px;background:#5865f2;transition:.2s;box-shadow:0 0 20px #5865f299}
+.dc .join:hover{filter:brightness(1.15);transform:scale(1.02)}
+footer{text-align:center;color:var(--m);font-size:.85rem;padding:50px 0}
+footer a{color:var(--p2)}
+
+/* ====== LIQUID GLASS ====== */
+.blobs{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;filter:blur(50px) saturate(150%)}
+.blobs i{position:absolute;border-radius:50%;background:radial-gradient(circle at 30% 30%,#c04dff,#6a1fe0 60%,transparent 72%);opacity:.75;animation:blob 18s ease-in-out infinite alternate}
+.blobs i:nth-child(1){width:46vmax;height:46vmax;left:-12vmax;top:-10vmax}
+.blobs i:nth-child(2){width:38vmax;height:38vmax;right:-10vmax;top:25vh;animation-duration:23s;animation-delay:-6s;background:radial-gradient(circle at 30% 30%,#8b3dff,#4a1fb8 60%,transparent 72%)}
+.blobs i:nth-child(3){width:34vmax;height:34vmax;left:20vw;bottom:-14vmax;animation-duration:27s;animation-delay:-11s;background:radial-gradient(circle at 30% 30%,#e07bff,#8b3dff 60%,transparent 72%)}
+@keyframes blob{0%{transform:translate(0,0) scale(1) rotate(0);border-radius:50% 50% 50% 50%}
+33%{transform:translate(8vw,6vh) scale(1.12) rotate(60deg);border-radius:62% 38% 55% 45%}
+66%{transform:translate(-6vw,12vh) scale(.92) rotate(140deg);border-radius:40% 60% 38% 62%}
+100%{transform:translate(5vw,-8vh) scale(1.08) rotate(220deg);border-radius:55% 45% 60% 40%}}
+#rain{opacity:.35}
+
+.plan,.card,.dc{
+ --mx:50%;--my:0%;
+ background:
+  radial-gradient(280px circle at var(--mx) var(--my),rgba(255,255,255,.26),transparent 62%),
+  linear-gradient(135deg,rgba(255,255,255,.16),rgba(255,255,255,.04) 55%,rgba(192,77,255,.10));
+ -webkit-backdrop-filter:blur(20px) saturate(190%) brightness(1.08);
+ backdrop-filter:blur(20px) saturate(190%) brightness(1.08);
+ border:1px solid rgba(255,255,255,.2);
+ border-radius:26px;
+ box-shadow:inset 0 1.5px 0 rgba(255,255,255,.45),inset 0 -1.5px 0 rgba(255,255,255,.08),inset 0 0 32px rgba(192,77,255,.18),0 14px 44px rgba(0,0,0,.5),0 0 32px rgba(139,61,255,.3);
+ animation:rise .9s cubic-bezier(.2,.9,.3,1.2) backwards
+}
+.plan:nth-child(2){animation-delay:.08s}.plan:nth-child(3){animation-delay:.16s}.plan:nth-child(4){animation-delay:.24s}
+@keyframes rise{from{opacity:0;transform:translateY(40px) scale(.92);filter:blur(12px)}to{opacity:1;transform:none;filter:none}}
+
+.plan{transition:transform .5s cubic-bezier(.34,1.56,.64,1),box-shadow .4s,border-color .3s;isolation:isolate}
+.plan::after{content:"";position:absolute;inset:0;top:0;height:auto;background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.28) 50%,transparent 65%);transform:translateX(-130%);transition:none;pointer-events:none}
+.plan:hover::after{transform:translateX(130%);transition:transform .9s ease;top:0}
+.plan:hover{transform:translateY(-8px) scale(1.035,.985);border-color:rgba(255,255,255,.45);box-shadow:inset 0 1.5px 0 rgba(255,255,255,.6),inset 0 0 40px rgba(192,77,255,.3),0 22px 50px rgba(0,0,0,.55),0 0 50px rgba(192,77,255,.55)}
+.plan:active{transform:scale(.96,1.02);transition-duration:.15s}
+.plan.sel{border-color:#e9c8ff;box-shadow:inset 0 1.5px 0 rgba(255,255,255,.7),inset 0 0 45px rgba(192,77,255,.4),0 0 0 1px #c04dff,0 0 55px rgba(192,77,255,.7);animation:rise .9s backwards,morph 7s ease-in-out infinite .9s}
+@keyframes morph{0%,100%{border-radius:26px}25%{border-radius:34px 20px 30px 22px/22px 32px 20px 34px}50%{border-radius:22px 34px 22px 32px/32px 22px 34px 20px}75%{border-radius:30px 24px 34px 20px/20px 34px 24px 30px}}
+.plan.hot::before{border-radius:0 0 14px 14px;box-shadow:0 4px 18px rgba(192,77,255,.7)}
+
+.card{animation:rise .9s .2s backwards}
+.bar{background:rgba(255,255,255,.07);border-bottom:1px solid rgba(255,255,255,.14);box-shadow:inset 0 1px 0 rgba(255,255,255,.2)}
+.dc{animation:rise .9s .1s both,drift 6s ease-in-out infinite 1s}
+@keyframes drift{50%{transform:translateY(-6px)}}
+
+.btn,.dc .join{position:relative;overflow:hidden;border-radius:18px;border:1px solid rgba(255,255,255,.35);box-shadow:inset 0 1.5px 0 rgba(255,255,255,.5),inset 0 -8px 18px rgba(0,0,0,.18),0 8px 28px rgba(139,61,255,.55);transition:transform .4s cubic-bezier(.34,1.56,.64,1),filter .2s,box-shadow .3s}
+.btn{background:linear-gradient(180deg,rgba(255,255,255,.28),rgba(139,61,255,.75) 45%,rgba(192,77,255,.85))}
+.dc .join{background:linear-gradient(180deg,rgba(255,255,255,.28),rgba(88,101,242,.8))}
+.btn::after,.dc .join::after{content:"";position:absolute;top:0;bottom:0;width:45%;left:-60%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-20deg);animation:shine 4s ease-in-out infinite}
+@keyframes shine{0%,60%{left:-60%}100%{left:130%}}
+.btn:hover,.dc .join:hover{transform:scale(1.03,.98) translateY(-2px)}
+.btn:active,.dc .join:active{transform:scale(.97,1.03)}
+
+.rip{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.55),rgba(192,77,255,.25) 50%,transparent 70%);transform:translate(-50%,-50%) scale(0);animation:rip .8s ease-out forwards;pointer-events:none;z-index:5}
+@keyframes rip{to{transform:translate(-50%,-50%) scale(1);opacity:0}}
+header img{animation:fl 5s ease-in-out infinite,pulse 4s ease-in-out infinite}
+@keyframes pulse{50%{filter:drop-shadow(0 0 60px #c04dffcc)}}
+
+/* ====== TYPO VALORANT ====== */
+h1,h2,.plan h3,.price,.btn,.dc .join,.sum,.plan.hot::before{font-family:Teko,'Arial Narrow',sans-serif;text-transform:uppercase;font-weight:700}
+h1{font-size:clamp(3rem,10vw,6rem);line-height:.95;letter-spacing:6px;font-style:italic;transform:skewX(-6deg)}
+h2{font-size:2.5rem;letter-spacing:5px;line-height:1}
+h2::before{content:"//";font-family:'Share Tech Mono',monospace;font-size:1.4rem;vertical-align:middle;margin-right:10px}
+.plan h3{font-size:1.7rem;letter-spacing:5px}
+.plan h3::before{content:"// ";font-family:'Share Tech Mono',monospace;font-size:1.1rem}
+.price{font-size:4rem;line-height:1;font-weight:700;letter-spacing:2px}
+.plan.hot::before{font-size:1rem;letter-spacing:3px;font-weight:600;padding:2px 16px}
+.btn,.dc .join{font-size:1.6rem;letter-spacing:5px;font-weight:600;padding:10px 14px;line-height:1.3}
+.sum{font-size:1.7rem;letter-spacing:3px}
+.sub,.bar,ol li::before{font-family:'Share Tech Mono',monospace}
+.sub{font-size:1rem;letter-spacing:.5px}
+ol li,.dc,.plan small,footer{font-family:Barlow,sans-serif;font-weight:500;letter-spacing:.3px}
+.dc b,.card b{font-weight:600;letter-spacing:.5px}
+.plan small{text-transform:uppercase;letter-spacing:2px;font-size:.82rem;font-weight:600}
+footer{font-size:.9rem}
+
+/* ====== 3D + FORMES ====== */
+.shapes{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.sh{position:absolute;perspective:700px;transform:translate3d(calc(var(--px,0)*var(--d,30)*1px),calc(var(--py,0)*var(--d,30)*1px),0);transition:transform .25s ease-out}
+.cube,.gyro{position:relative;transform-style:preserve-3d;animation:spin3d 18s linear infinite}
+.cube{width:var(--s);height:var(--s)}
+.cube b{position:absolute;inset:0;border:1.5px solid rgba(215,140,255,.95);background:linear-gradient(135deg,rgba(255,255,255,.16),rgba(139,61,255,.14));box-shadow:inset 0 0 22px rgba(192,77,255,.55),0 0 14px rgba(139,61,255,.5)}
+.cube b:nth-child(1){transform:translateZ(calc(var(--s)/2))}
+.cube b:nth-child(2){transform:rotateY(90deg) translateZ(calc(var(--s)/2))}
+.cube b:nth-child(3){transform:rotateY(180deg) translateZ(calc(var(--s)/2))}
+.cube b:nth-child(4){transform:rotateY(-90deg) translateZ(calc(var(--s)/2))}
+.cube b:nth-child(5){transform:rotateX(90deg) translateZ(calc(var(--s)/2))}
+.cube b:nth-child(6){transform:rotateX(-90deg) translateZ(calc(var(--s)/2))}
+@keyframes spin3d{from{transform:rotateX(20deg) rotateY(0)}to{transform:rotateX(380deg) rotateY(360deg)}}
+.gyro{width:130px;height:130px}
+.gyro u{position:absolute;inset:0;border:3px solid rgba(215,140,255,.9);border-radius:50%;box-shadow:0 0 18px #8b3dff,inset 0 0 18px #8b3dff88}
+.gyro u:nth-child(2){transform:rotateY(90deg)}
+.gyro u:nth-child(3){transform:rotateX(90deg)}
+.hex,.tri,.dia{background:linear-gradient(135deg,rgba(255,255,255,.55),rgba(139,61,255,.45) 60%,rgba(192,77,255,.6));filter:drop-shadow(0 0 14px #8b3dff);animation:flip 10s ease-in-out infinite}
+.hex{width:110px;height:124px;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%)}
+.tri{width:100px;height:90px;clip-path:polygon(50% 0,100% 100%,0 100%);animation-duration:13s;animation-direction:reverse}
+.dia{width:64px;height:64px;clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%);animation-duration:8s}
+@keyframes flip{0%{transform:rotateY(0) rotateZ(0)}50%{transform:rotateY(180deg) rotateZ(25deg)}100%{transform:rotateY(360deg) rotateZ(0)}}
+@media(max-width:760px){.shapes{opacity:.55}}
+
+/* tilt 3D */
+.plan,.card{transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .5s cubic-bezier(.34,1.56,.64,1),box-shadow .4s,border-color .3s}
+.plan:hover{transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateY(-8px) scale(1.035,.985);transition:transform .15s ease-out,box-shadow .4s,border-color .3s}
+.plan:active{transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) scale(.96,1.02)}
+.card{transition:transform .2s ease-out,box-shadow .4s}
+
+/* texte extrudé 3D */
+h1{transform:perspective(900px) rotateY(calc(var(--px,0)*10deg)) rotateX(calc(var(--py,0)*-7deg)) skewX(-6deg);transition:transform .2s ease-out;text-shadow:2px 2px 0 #4a1aa8,4px 4px 0 #3b1488,6px 6px 0 #2d0e6b,9px 9px 16px rgba(0,0,0,.6)}
+h1 span{text-shadow:none;filter:drop-shadow(2px 2px 0 #5b25c8) drop-shadow(4px 4px 0 #3b1488) drop-shadow(6px 6px 0 #2d0e6b) drop-shadow(0 0 18px #8b3dff)}
+h2{text-shadow:2px 2px 0 #4a1aa8,4px 4px 0 #2d0e6b,0 0 18px #8b3dff}
+.price{text-shadow:1px 1px 0 #6a2ee0,2px 2px 0 #5b25c8,3px 3px 0 #4a1aa8,4px 4px 0 #3b1488,5px 5px 0 #2d0e6b,8px 10px 18px rgba(0,0,0,.6),0 0 24px #8b3dff}
+
+/* boutons 3D enfonçables */
+.btn{box-shadow:inset 0 1.5px 0 rgba(255,255,255,.5),inset 0 -8px 18px rgba(0,0,0,.18),0 7px 0 #3a1491,0 14px 28px rgba(139,61,255,.55)}
+.btn:hover{transform:translateY(-2px) scale(1.02)}
+.btn:active{transform:translateY(5px);box-shadow:inset 0 1.5px 0 rgba(255,255,255,.5),0 2px 0 #3a1491,0 5px 12px rgba(139,61,255,.5)}
+.dc .join{box-shadow:inset 0 1.5px 0 rgba(255,255,255,.5),inset 0 -8px 18px rgba(0,0,0,.18),0 6px 0 #2f3aa8,0 12px 24px rgba(88,101,242,.55)}
+.dc .join:hover{transform:translateY(-2px) scale(1.02)}
+.dc .join:active{transform:translateY(4px);box-shadow:inset 0 1.5px 0 rgba(255,255,255,.5),0 2px 0 #2f3aa8}
+
+/* angles façon HUD */
+.card,.dc{position:relative}
+.dc::before,.card::before{content:"";position:absolute;width:20px;height:20px;pointer-events:none;border:2px solid var(--p2);border-width:0 0 2px 2px;left:12px;bottom:12px;filter:drop-shadow(0 0 6px var(--p2))}
+.dc::before{border-width:2px 0 0 2px;top:12px;bottom:auto}
+.dc::after,.card::after{content:"";position:absolute;width:20px;height:20px;pointer-events:none;border:2px solid var(--p2);border-width:0 2px 2px 0;right:12px;bottom:12px;filter:drop-shadow(0 0 6px var(--p2))}
+@media(prefers-reduced-motion:reduce){*,::before,::after{animation:none!important}}
+</style>
+</head>
+<body>
+<canvas id="rain"></canvas>
+<div class="blobs"><i></i><i></i><i></i></div>
+<div class="shapes" aria-hidden="true">
+  <div class="sh" style="left:5vw;top:14vh;--d:30"><div class="cube" style="--s:90px;"><b></b><b></b><b></b><b></b><b></b><b></b></div></div>
+  <div class="sh" style="right:7vw;top:10vh;--d:-40"><div class="gyro"><u></u><u></u><u></u></div></div>
+  <div class="sh" style="left:3vw;top:56vh;--d:50"><div class="hex"></div></div>
+  <div class="sh" style="right:5vw;top:50vh;--d:-25"><div class="cube" style="--s:60px;animation-duration:11s;animation-direction:reverse"><b></b><b></b><b></b><b></b><b></b><b></b></div></div>
+  <div class="sh" style="left:13vw;bottom:7vh;--d:-35"><div class="tri"></div></div>
+  <div class="sh" style="right:15vw;bottom:9vh;--d:40"><div class="dia"></div></div>
+  <div class="sh" style="left:44vw;top:3vh;--d:20"><div class="cube" style="--s:34px;animation-duration:9s"><b></b><b></b><b></b><b></b><b></b><b></b></div></div>
+</div>
+<div class="w">
+<header>
+  <img src="logo.png" alt="OpenCode">
+  <h1>OPENCODE <span>BYPASS</span></h1>
+  <p class="sub" id="typed" aria-label="Choisis ton abonnement, paie par PayPal, reçois ton accès."></p>
+  <div class="dc">
+    🔑 <b>Ta clé d'accès s'obtient uniquement via Discord.</b><br>
+    Rejoins le serveur pour recevoir ta clé après ton paiement.
+    <a class="join" href="https://discord.gg/sA7FcbNvkm" target="_blank" rel="noopener">REJOINDRE LE DISCORD</a>
+  </div>
+</header>
+
+<h2>1 · CHOISIS TON OFFRE</h2>
+<div class="grid" id="plans"></div>
+
+<h2>2 · PAIE AVEC PAYPAL</h2>
+<div class="card">
+  <div class="bar"><i></i><i></i><i></i><span>root@opencode:~/paiement</span></div>
+  <ol>
+    <li>Sélectionne ton offre ci-dessus.</li>
+    <li>Clique sur <b>Payer avec PayPal</b> : la page PayPal s'ouvre avec le montant déjà rempli.</li>
+    <li>Connecte-toi à PayPal (ou paie par carte) et valide le paiement.</li>
+    <li>Dans la note PayPal, écris ton <b>pseudo Discord</b>.</li>
+    <li><a href="https://discord.gg/sA7FcbNvkm" target="_blank" rel="noopener" style="color:var(--p2)">Rejoins le serveur Discord</a> : <b>c'est là que tu reçois ta clé</b>.</li>
+  </ol>
+  <div class="sum" id="sum">Aucune offre sélectionnée</div>
+  <a class="btn off" id="pay" target="_blank" rel="noopener">PAYER AVEC PAYPAL</a>
+</div>
+
+<footer>
+  Besoin d'aide ? <a href="https://discord.gg/sA7FcbNvkm" target="_blank" rel="noopener">discord.gg/sA7FcbNvkm</a><br>
+  Pas de Discord = pas de clé : ta clé t'est envoyée via Discord après vérification du paiement.
+</footer>
+</div>
+
+<script>
+// ====== CONFIG ======
+const PAYPAL = "https://paypal.me/LEER0610";
+const PLANS = [
+  {id:"3days",  name:"3 jours",  price:2.99,  note:"Pour tester"},
+  {id:"1week",  name:"1 semaine",price:4.99,  note:"7 jours d'accès"},
+  {id:"1month", name:"1 mois",   price:9.99,  note:"30 jours d'accès", hot:true},
+  {id:"lifetime",name:"Lifetime",price:24.99, note:"Accès à vie"}
+];
+// ====================
+let sel=null;
+const $=id=>document.getElementById(id);
+const fmt=n=>n.toFixed(2).replace(".",",")+" €";
+$("plans").innerHTML=PLANS.map(p=>`<div class="plan${p.hot?" hot":""}" data-id="${p.id}"><h3>${p.name}</h3><div class="price">${fmt(p.price)}</div><small>${p.note}</small></div>`).join("");
+document.querySelectorAll(".plan").forEach(el=>el.onclick=()=>{
+  document.querySelectorAll(".plan").forEach(x=>x.classList.remove("sel"));
+  el.classList.add("sel");
+  sel=PLANS.find(p=>p.id===el.dataset.id);
+  $("sum").textContent=`${sel.name} — ${fmt(sel.price)}`;
+  $("pay").href=`${PAYPAL}/${sel.price.toFixed(2)}EUR`;
+  $("pay").classList.remove("off");
+});
+
+// ====== Effet code (pluie violette) ======
+(function(){
+  const c=$("rain"),x=c.getContext("2d"),chars="01アイウエオカキクケコサシスセソ{}[]<>/\\=+*#$%&;:ABCDEF0123456789";
+  const fs=16;let cols,drops;
+  function init(){c.width=innerWidth;c.height=innerHeight;cols=Math.ceil(c.width/fs);drops=Array.from({length:cols},()=>Math.random()*-60)}
+  init();addEventListener("resize",init);
+  function draw(){
+    x.fillStyle="rgba(5,2,12,.09)";x.fillRect(0,0,c.width,c.height);
+    x.font=fs+"px 'Share Tech Mono',monospace";
+    for(let i=0;i<cols;i++){
+      const ch=chars[Math.floor(Math.random()*chars.length)],y=drops[i]*fs;
+      x.fillStyle="#e9c8ff";x.fillText(ch,i*fs,y);
+      x.fillStyle="#8b3dff";x.fillText(chars[Math.floor(Math.random()*chars.length)],i*fs,y-fs);
+      if(y>c.height&&Math.random()>.975)drops[i]=0;
+      drops[i]+=.6;
+    }
+  }
+  if(!matchMedia("(prefers-reduced-motion:reduce)").matches)setInterval(draw,45);
+})();
+
+// ====== Texte tapé façon terminal ======
+(function(){
+  const t="> Choisis ton abonnement, paie par PayPal, reçois ton accès._",el=$("typed");
+  if(matchMedia("(prefers-reduced-motion:reduce)").matches){el.textContent=t;return}
+  let i=0;(function n(){el.textContent=t.slice(0,++i);if(i<t.length)setTimeout(n,35+Math.random()*50)})();
+})();
+
+// ====== Liquid glass : reflet qui suit la souris + ondulations ======
+(function(){
+  const sel=".plan,.card,.dc",btn=".btn,.join";
+  document.addEventListener("pointermove",e=>{
+    document.querySelectorAll(sel).forEach(el=>{
+      const r=el.getBoundingClientRect();
+      el.style.setProperty("--mx",(e.clientX-r.left)+"px");
+      el.style.setProperty("--my",(e.clientY-r.top)+"px");
+    });
+  },{passive:true});
+  document.addEventListener("pointerdown",e=>{
+    const el=e.target.closest(".plan,.btn,.join");if(!el)return;
+    const r=el.getBoundingClientRect(),d=Math.max(r.width,r.height)*2.2,s=document.createElement("span");
+    s.className="rip";s.style.cssText=`width:${d}px;height:${d}px;left:${e.clientX-r.left}px;top:${e.clientY-r.top}px`;
+    if(getComputedStyle(el).position==="static")el.style.position="relative";
+    el.style.overflow="hidden";el.appendChild(s);setTimeout(()=>s.remove(),800);
+  });
+})();
+
+// ====== 3D : parallaxe des formes + tilt des cartes ======
+(function(){
+  const root=document.documentElement;
+  document.addEventListener("pointermove",e=>{
+    root.style.setProperty("--px",((e.clientX/innerWidth-.5)*2).toFixed(3));
+    root.style.setProperty("--py",((e.clientY/innerHeight-.5)*2).toFixed(3));
+  },{passive:true});
+  function tilt(el,max){
+    el.addEventListener("pointermove",e=>{
+      const r=el.getBoundingClientRect();
+      el.style.setProperty("--ry",(((e.clientX-r.left)/r.width-.5)*max*2).toFixed(2)+"deg");
+      el.style.setProperty("--rx",((.5-(e.clientY-r.top)/r.height)*max*2).toFixed(2)+"deg");
+    });
+    el.addEventListener("pointerleave",()=>{el.style.setProperty("--rx","0deg");el.style.setProperty("--ry","0deg")});
+  }
+  document.querySelectorAll(".plan").forEach(el=>tilt(el,12));
+  tilt(document.querySelector(".card"),3);
+})();
+</script>
+</body>
+</html>

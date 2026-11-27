@@ -182,6 +182,29 @@ h2{text-shadow:2px 2px 0 #4a1aa8,4px 4px 0 #2d0e6b,0 0 18px #8b3dff}
 .dc::before{border-width:2px 0 0 2px;top:12px;bottom:auto}
 .dc::after,.card::after{content:"";position:absolute;width:20px;height:20px;pointer-events:none;border:2px solid var(--p2);border-width:0 2px 2px 0;right:12px;bottom:12px;filter:drop-shadow(0 0 6px var(--p2))}
 @media(prefers-reduced-motion:reduce){*,::before,::after{animation:none!important}}
+
+/* compte Discord / dashboard */
+.acc{margin:26px auto 0;max-width:680px;padding:22px;text-align:center}
+.dcbtn{display:inline-block;margin-top:12px;padding:13px 26px;border:0;border-radius:10px;background:#5865f2;color:#fff;font:600 1.05rem Barlow,sans-serif;letter-spacing:1px;cursor:pointer;box-shadow:inset 0 1.5px 0 rgba(255,255,255,.5),0 6px 0 #2f3aa8,0 12px 24px rgba(88,101,242,.55)}
+.dcbtn:active{transform:translateY(4px);box-shadow:0 2px 0 #2f3aa8}
+.me{display:flex;align-items:center;gap:14px;text-align:left}
+.me img{width:56px;height:56px;border-radius:50%;border:2px solid var(--p2);box-shadow:0 0 16px #8b3dff}
+.me b{font:700 1.5rem Teko,sans-serif;letter-spacing:2px;display:block;line-height:1.1}
+.me small{color:var(--m)}
+.me .acts{margin-left:auto;display:flex;gap:8px}
+.ghost{background:none;border:1px solid var(--line);color:var(--m);border-radius:8px;padding:6px 12px;cursor:pointer;font:inherit}
+.dash{text-align:left}
+.dash h3{font:700 1.2rem Teko,sans-serif;letter-spacing:2px;margin:18px 0 8px;color:var(--p2)}
+.row{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:10px 12px;border:1px solid var(--line);border-radius:10px;margin-bottom:8px;background:#0a0418}
+.row code{font-family:var(--mono);color:var(--t);word-break:break-all}
+.row small{color:var(--m)}
+.pill{font-size:.75rem;padding:2px 8px;border-radius:99px;border:1px solid var(--line)}
+.pill.paid{color:#5dffa0;border-color:#1f7a4a}.pill.pending{color:#ffcf5d;border-color:#7a5f1f}.pill.cancelled{color:#ff7a7a;border-color:#7a1f1f}
+.cp{background:var(--p);border:0;color:#fff;border-radius:8px;padding:6px 12px;cursor:pointer;font:inherit}
+.empty{color:var(--m);font-size:.9rem}
+.top{position:fixed;top:12px;right:12px;z-index:6;margin:0;padding:9px 16px;font-size:.85rem;max-width:60vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:9;background:#1a0b3a;border:1px solid var(--p);padding:10px 16px;border-radius:10px;opacity:0;pointer-events:none;transition:opacity .3s;max-width:90vw;text-align:center}
+#toast.on{opacity:1}
 </style>
 </head>
 <body>
@@ -202,11 +225,20 @@ h2{text-shadow:2px 2px 0 #4a1aa8,4px 4px 0 #2d0e6b,0 0 18px #8b3dff}
   <h1>OPENCODE <span>BYPASS</span></h1>
   <p class="sub" id="typed" aria-label="Choisis ton abonnement, paie par PayPal, reçois ton accès."></p>
   <div class="dc">
-    🔑 <b>Ta clé d'accès s'obtient uniquement via Discord.</b><br>
-    Rejoins le serveur pour recevoir ta clé après ton paiement.
+    🔑 <b>Ta clé d'accès arrive dans ton dashboard après vérification du paiement.</b><br>
+    Rejoins le serveur pour l'aide et les mises à jour.
     <a class="join" href="https://discord.gg/sA7FcbNvkm" target="_blank" rel="noopener">REJOINDRE LE DISCORD</a>
   </div>
 </header>
+
+<section class="card acc" id="acc">
+  <div id="accOut">
+    <b>🔐 Connecte-toi avec Discord</b><br>
+    <span style="color:var(--m)">Ton compte Discord sert à passer commande et à retrouver ta clé ici.</span><br>
+    <button class="dcbtn" id="loginBtn" type="button">SE CONNECTER AVEC DISCORD</button>
+  </div>
+  <div id="accIn" class="dash" hidden></div>
+</section>
 
 <h2>1 · CHOISIS TON OFFRE</h2>
 <div class="grid" id="plans"></div>
@@ -215,11 +247,11 @@ h2{text-shadow:2px 2px 0 #4a1aa8,4px 4px 0 #2d0e6b,0 0 18px #8b3dff}
 <div class="card">
   <div class="bar"><i></i><i></i><i></i><span>root@opencode:~/paiement</span></div>
   <ol>
-    <li>Sélectionne ton offre ci-dessus.</li>
+    <li>Connecte-toi avec Discord, puis sélectionne ton offre.</li>
     <li>Clique sur <b>Payer avec PayPal</b> : la page PayPal s'ouvre avec le montant déjà rempli.</li>
     <li>Connecte-toi à PayPal (ou paie par carte) et valide le paiement.</li>
     <li>Dans la note PayPal, écris ton <b>pseudo Discord</b>.</li>
-    <li><a href="https://discord.gg/sA7FcbNvkm" target="_blank" rel="noopener" style="color:var(--p2)">Rejoins le serveur Discord</a> : <b>c'est là que tu reçois ta clé</b>.</li>
+    <li>Ta clé apparaît dans ton <b>dashboard</b> (en haut de la page) dès que le paiement est vérifié. Besoin d'aide ? <a href="https://discord.gg/sA7FcbNvkm" target="_blank" rel="noopener" style="color:var(--p2)">Rejoins le serveur Discord</a>.</li>
   </ol>
   <div class="sum" id="sum">Aucune offre sélectionnée</div>
   <a class="btn off" id="pay" target="_blank" rel="noopener">PAYER AVEC PAYPAL</a>
@@ -227,9 +259,11 @@ h2{text-shadow:2px 2px 0 #4a1aa8,4px 4px 0 #2d0e6b,0 0 18px #8b3dff}
 
 <footer>
   Besoin d'aide ? <a href="https://discord.gg/sA7FcbNvkm" target="_blank" rel="noopener">discord.gg/sA7FcbNvkm</a><br>
-  Pas de Discord = pas de clé : ta clé t'est envoyée via Discord après vérification du paiement.
+  Pas de compte Discord = pas de clé : connecte-toi pour retrouver ta clé après vérification du paiement.
 </footer>
 </div>
+<button class="dcbtn top" id="topBtn" type="button">CONNEXION DISCORD</button>
+<div id="toast"></div>
 
 <script>
 // ====== CONFIG ======
@@ -252,6 +286,100 @@ document.querySelectorAll(".plan").forEach(el=>el.onclick=()=>{
   $("sum").textContent=`${sel.name} — ${fmt(sel.price)}`;
   $("pay").href=`${PAYPAL}/${sel.price.toFixed(2)}EUR`;
   $("pay").classList.remove("off");
+});
+
+// ====== Compte Discord + dashboard (Supabase) ======
+const SUPA="https://twjdatnoxskjduagaasb.supabase.co/functions/v1/ocb-admin";
+const DC_CLIENT="1575205269506490378";
+const DC_REDIRECT="https://buyczonebypasskey.vercel.app";
+const LS_TOK="ocb_dc_token";
+const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const dfmt=t=>t?new Date(t).toLocaleDateString("fr-FR",{day:"2-digit",month:"2-digit",year:"numeric"}):"";
+function toast(m){const t=$("toast");t.textContent=m;t.classList.add("on");clearTimeout(toast.h);toast.h=setTimeout(()=>t.classList.remove("on"),3500)}
+function call(payload){
+  return fetch(SUPA,{method:"POST",headers:{"Content-Type":"text/plain"},body:JSON.stringify(payload)})
+    .then(async r=>{const d=await r.json().catch(()=>({ok:false,error:"Erreur serveur."}));
+      if(!d.ok){const e=new Error(d.error||"Erreur");e.status=r.status;throw e}return d});
+}
+function getTok(){
+  try{const o=JSON.parse(localStorage.getItem(LS_TOK)||"null");
+    if(o&&o.t&&o.exp>Date.now())return o.t}catch(e){}
+  localStorage.removeItem(LS_TOK);return null;
+}
+function startLogin(){
+  const a=new Uint8Array(16);crypto.getRandomValues(a);
+  const state=[...a].map(b=>b.toString(16).padStart(2,"0")).join("");
+  sessionStorage.setItem("ocb_state",state);
+  location.href="https://discord.com/oauth2/authorize?client_id="+DC_CLIENT+
+    "&response_type=token&scope=identify&redirect_uri="+encodeURIComponent(DC_REDIRECT)+"&state="+state;
+}
+function logout(){$("topBtn").textContent="CONNEXION DISCORD";localStorage.removeItem(LS_TOK);$("accIn").hidden=true;$("accOut").hidden=false}
+let justLoggedIn=false;
+(function readReturn(){
+  const h=location.hash.slice(1);if(!h)return;
+  const p=new URLSearchParams(h);
+  if(!p.has("access_token")&&!p.has("error"))return;
+  history.replaceState(null,"",location.pathname+location.search);
+  if(p.has("error")){toast("Connexion Discord annulée");return}
+  if(p.get("state")!==sessionStorage.getItem("ocb_state")){toast("Connexion invalide, réessaie");return}
+  sessionStorage.removeItem("ocb_state");
+  const exp=Date.now()+Math.max(60,+p.get("expires_in")||3600)*1000-60000;
+  localStorage.setItem(LS_TOK,JSON.stringify({t:p.get("access_token"),exp}));
+  justLoggedIn=true;
+})();
+function render(d){
+  const u=d.user,name=u.global_name||u.username;
+  const av=u.avatar?`https://cdn.discordapp.com/avatars/${encodeURIComponent(u.id)}/${encodeURIComponent(u.avatar)}.png?size=128`:"https://cdn.discordapp.com/embed/avatars/0.png";
+  const keys=d.keys.length?d.keys.map(k=>{
+    const dead=!k.active||(k.expires_at&&k.expires_at<Date.now());
+    const info=(PLANS.find(p=>p.id===k.plan)||{}).name||k.plan;
+    const exp=!k.active?"révoquée":dead?"expirée":k.expires_at?"expire le "+dfmt(k.expires_at):"accès à vie";
+    return `<div class="row"><div><code>${esc(k.key)}</code><br><small>${esc(info)} · ${exp}</small></div><button class="cp" data-k="${esc(k.key)}" type="button">COPIER</button></div>`}).join("")
+    :`<p class="empty">Aucune clé pour le moment. Elle apparaît ici dès que ton paiement est vérifié.</p>`;
+  const ST={pending:"en attente",paid:"payée",cancelled:"annulée"};
+  const orders=d.orders.length?d.orders.map(o=>`<div class="row"><div>${esc(o.name||o.plan)} — ${o.price!=null?fmt(Number(o.price)):""}<br><small>${dfmt(o.created_at)}</small></div><span class="pill ${esc(o.status)}">${ST[o.status]||esc(o.status)}</span></div>`).join("")
+    :`<p class="empty">Aucune commande.</p>`;
+  $("accIn").innerHTML=`<div class="me"><img src="${esc(av)}" alt=""><div><b>${esc(name)}</b><small>@${esc(u.username)}</small></div>
+    <div class="acts"><button class="ghost" id="refBtn" type="button">ACTUALISER</button><button class="ghost" id="outBtn" type="button">DÉCONNEXION</button></div></div>
+    <h3>MES CLÉS</h3>${keys}<h3>MES COMMANDES</h3>${orders}`;
+  $("accOut").hidden=true;$("accIn").hidden=false;$("topBtn").textContent="👤 "+name;
+  $("refBtn").onclick=()=>loadAccount("me",true);
+  $("outBtn").onclick=logout;
+}
+async function loadAccount(action,manual){
+  const t=getTok();if(!t)return;
+  try{render(await call({action,access_token:t}));if(manual)toast("À jour")}
+  catch(e){
+    if(e.status===401){logout();toast("Session expirée : reconnecte-toi")}
+    else if(manual||action==="discord_login")toast("Impossible de charger ton compte")
+  }
+}
+$("loginBtn").onclick=startLogin;
+$("topBtn").onclick=()=>getTok()?$("acc").scrollIntoView({behavior:"smooth",block:"center"}):startLogin();
+$("accIn").addEventListener("click",e=>{
+  const b=e.target.closest("[data-k]");if(!b)return;
+  const k=b.dataset.k;
+  (navigator.clipboard?navigator.clipboard.writeText(k):Promise.reject()).then(()=>toast("Clé copiée"),()=>toast(k));
+});
+document.addEventListener("visibilitychange",()=>{if(!document.hidden&&getTok())loadAccount("me")});
+loadAccount(justLoggedIn?"discord_login":"me");
+
+// paiement : la commande est créée sur ton compte AVANT d'aller sur PayPal
+$("pay").addEventListener("click",async e=>{
+  e.preventDefault();
+  if(!sel)return;
+  const t=getTok();
+  if(!t){toast("Connecte-toi avec Discord pour commander");$("acc").scrollIntoView({behavior:"smooth",block:"center"});return}
+  const btn=$("pay");btn.classList.add("off");
+  try{
+    await call({action:"order_create",access_token:t,plan:sel.id});
+    toast("Commande créée — redirection vers PayPal…");
+    location.href=btn.href;
+  }catch(err){
+    btn.classList.remove("off");
+    if(err.status===401){logout();toast("Session expirée : reconnecte-toi")}
+    else toast(err.message||"Impossible de créer la commande");
+  }
 });
 
 // ====== Effet code (pluie violette) ======

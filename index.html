@@ -341,6 +341,7 @@ function render(d){
   const keep=$("claimKey")?$("claimKey").value:"";
   const u=d.user,name=u.global_name||u.username;
   const av=u.avatar?`https://cdn.discordapp.com/avatars/${encodeURIComponent(u.id)}/${encodeURIComponent(u.avatar)}.png?size=128`:"https://cdn.discordapp.com/embed/avatars/0.png";
+  const hasValid=d.keys.some(k=>k.active&&(!k.expires_at||k.expires_at>Date.now()));
   const keys=d.keys.length?d.keys.map(k=>{
     const dead=!k.active||(k.expires_at&&k.expires_at<Date.now());
     const info=(PLANS.find(p=>p.id===k.plan)||{}).name||k.plan;
@@ -353,6 +354,7 @@ function render(d){
   $("accIn").innerHTML=`<div class="me"><img src="${esc(av)}" alt=""><div><b>${esc(name)}</b><small>@${esc(u.username)}</small></div>
     <div class="acts"><button class="ghost" id="refBtn" type="button">ACTUALISER</button><button class="ghost" id="outBtn" type="button">DÉCONNEXION</button></div></div>
     <h3>MES CLÉS</h3>${keys}
+    ${hasValid?`<button class="dcbtn" id="dlBtn" type="button" style="width:100%;margin:6px 0 4px">⬇ TÉLÉCHARGER LE SETUP</button>`:`<p class="empty">Ajoute une clé valide pour débloquer le téléchargement du setup.</p>`}
     <div class="claim"><input id="claimKey" placeholder="CZONE-XXXX-XXXX-XXXX" maxlength="40" autocapitalize="characters" autocomplete="off" spellcheck="false"><button class="cp" id="claimBtn" type="button">AJOUTER MA CLÉ</button></div>
     <small style="color:var(--m)">Entre ta clé pour la lier à ton compte et voir le temps qu'il lui reste.</small>
     <h3>MES COMMANDES</h3>${orders}`;
@@ -373,6 +375,19 @@ function render(d){
     }
   };
   $("claimBtn").onclick=claim;
+  if($("dlBtn"))$("dlBtn").onclick=async()=>{
+    const t=getTok();if(!t){logout();return}
+    const b=$("dlBtn");b.disabled=true;
+    try{
+      const r=await call({action:"download",access_token:t});
+      toast("Téléchargement en cours…");
+      location.href=r.url;
+    }catch(err){
+      if(err.status===401){logout();toast("Session expirée : reconnecte-toi")}
+      else toast(err.message||"Téléchargement impossible");
+    }
+    b.disabled=false;
+  };
   $("claimKey").onkeydown=e=>{if(e.key==="Enter")claim()};
   $("accOut").hidden=true;$("accIn").hidden=false;$("topBtn").textContent="👤 "+name;
   $("refBtn").onclick=()=>loadAccount("me",true);

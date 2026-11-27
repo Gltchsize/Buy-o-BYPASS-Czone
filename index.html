@@ -203,6 +203,10 @@ h2{text-shadow:2px 2px 0 #4a1aa8,4px 4px 0 #2d0e6b,0 0 18px #8b3dff}
 .cp{background:var(--p);border:0;color:#fff;border-radius:8px;padding:6px 12px;cursor:pointer;font:inherit}
 .empty{color:var(--m);font-size:.9rem}
 .top{position:fixed;top:12px;right:12px;z-index:6;margin:0;padding:9px 16px;font-size:.85rem;max-width:60vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.claim{display:flex;gap:8px;margin:10px 0 4px}
+.claim input{flex:1;min-width:0;background:#0a0418;border:1px solid var(--line);color:var(--t);border-radius:8px;padding:10px 12px;font-family:var(--mono);font-size:.95rem;text-transform:uppercase;outline:none}
+.claim input:focus{border-color:var(--p2)}
+.left{color:var(--p2);font-weight:600}
 #toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:9;background:#1a0b3a;border:1px solid var(--p);padding:10px 16px;border-radius:10px;opacity:0;pointer-events:none;transition:opacity .3s;max-width:90vw;text-align:center}
 #toast.on{opacity:1}
 </style>
@@ -327,13 +331,20 @@ let justLoggedIn=false;
   localStorage.setItem(LS_TOK,JSON.stringify({t:p.get("access_token"),exp}));
   justLoggedIn=true;
 })();
+function remain(t){
+  const s=Math.max(0,Math.floor((t-Date.now())/1000)),d=Math.floor(s/86400),h=Math.floor(s%86400/3600),m=Math.floor(s%3600/60);
+  return d>0?d+" j "+h+" h":h>0?h+" h "+m+" min":Math.max(m,1)+" min";
+}
+let lastData=null;
 function render(d){
+  lastData=d;
+  const keep=$("claimKey")?$("claimKey").value:"";
   const u=d.user,name=u.global_name||u.username;
   const av=u.avatar?`https://cdn.discordapp.com/avatars/${encodeURIComponent(u.id)}/${encodeURIComponent(u.avatar)}.png?size=128`:"https://cdn.discordapp.com/embed/avatars/0.png";
   const keys=d.keys.length?d.keys.map(k=>{
     const dead=!k.active||(k.expires_at&&k.expires_at<Date.now());
     const info=(PLANS.find(p=>p.id===k.plan)||{}).name||k.plan;
-    const exp=!k.active?"révoquée":dead?"expirée":k.expires_at?"expire le "+dfmt(k.expires_at):"accès à vie";
+    const exp=!k.active?"révoquée":dead?"expirée":k.expires_at?`<span class="left">il reste ${remain(k.expires_at)}</span> (jusqu'au ${dfmt(k.expires_at)})`:`<span class="left">accès à vie</span>`;
     return `<div class="row"><div><code>${esc(k.key)}</code><br><small>${esc(info)} · ${exp}</small></div><button class="cp" data-k="${esc(k.key)}" type="button">COPIER</button></div>`}).join("")
     :`<p class="empty">Aucune clé pour le moment. Elle apparaît ici dès que ton paiement est vérifié.</p>`;
   const ST={pending:"en attente",paid:"payée",cancelled:"annulée"};
@@ -341,7 +352,28 @@ function render(d){
     :`<p class="empty">Aucune commande.</p>`;
   $("accIn").innerHTML=`<div class="me"><img src="${esc(av)}" alt=""><div><b>${esc(name)}</b><small>@${esc(u.username)}</small></div>
     <div class="acts"><button class="ghost" id="refBtn" type="button">ACTUALISER</button><button class="ghost" id="outBtn" type="button">DÉCONNEXION</button></div></div>
-    <h3>MES CLÉS</h3>${keys}<h3>MES COMMANDES</h3>${orders}`;
+    <h3>MES CLÉS</h3>${keys}
+    <div class="claim"><input id="claimKey" placeholder="CZONE-XXXX-XXXX-XXXX" maxlength="40" autocapitalize="characters" autocomplete="off" spellcheck="false"><button class="cp" id="claimBtn" type="button">AJOUTER MA CLÉ</button></div>
+    <small style="color:var(--m)">Entre ta clé pour la lier à ton compte et voir le temps qu'il lui reste.</small>
+    <h3>MES COMMANDES</h3>${orders}`;
+  $("claimKey").value=keep;
+  const claim=async()=>{
+    const v=$("claimKey").value.trim();
+    if(!v){toast("Entre ta clé");return}
+    const t=getTok();if(!t){logout();return}
+    const b=$("claimBtn");b.disabled=true;
+    try{
+      const r=await call({action:"key_claim",access_token:t,key:v});
+      render(Object.assign({user:lastData.user},r));
+      toast("Clé ajoutée à ton compte");
+    }catch(err){
+      b.disabled=false;
+      if(err.status===401){logout();toast("Session expirée : reconnecte-toi")}
+      else toast(err.message||"Impossible d'ajouter la clé");
+    }
+  };
+  $("claimBtn").onclick=claim;
+  $("claimKey").onkeydown=e=>{if(e.key==="Enter")claim()};
   $("accOut").hidden=true;$("accIn").hidden=false;$("topBtn").textContent="👤 "+name;
   $("refBtn").onclick=()=>loadAccount("me",true);
   $("outBtn").onclick=logout;
@@ -363,6 +395,7 @@ $("accIn").addEventListener("click",e=>{
 });
 document.addEventListener("visibilitychange",()=>{if(!document.hidden&&getTok())loadAccount("me")});
 loadAccount(justLoggedIn?"discord_login":"me");
+setInterval(()=>{if(lastData&&document.activeElement.id!=="claimKey"&&!$("accIn").hidden)render(lastData)},60000);
 
 // paiement : la commande est créée sur ton compte AVANT d'aller sur PayPal
 $("pay").addEventListener("click",async e=>{
